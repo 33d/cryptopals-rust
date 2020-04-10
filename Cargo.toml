@@ -1,0 +1,5 @@
+[package]
+name = "cryptopals"
+version = "0.0.0"
+authors = [""]
+edition = "2018"
