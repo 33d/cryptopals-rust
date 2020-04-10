@@ -50,6 +50,24 @@ mod tests {
     return r;
   }
 
+  fn xor<T>(v1: T, v2: T) -> Vec<u8>
+  where T: IntoIterator<Item=u8> {
+    let mut i1 = v1.into_iter();
+    let mut i2 = v2.into_iter();
+    let mut r : Vec<u8> = Vec::new();
+
+    loop {
+      let b1 = match i1.next() {
+        Some(val) => val,
+        None => break,
+      };
+      let b2 = i2.next().unwrap();
+      r.push(b1 ^ b2);
+    }
+  
+    r
+  }
+
   #[test]
   fn test_01_01_hex_to_base64() {
     let src = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
@@ -58,4 +76,13 @@ mod tests {
 
     assert_eq!("SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t", to_base64(binary));
   }
+
+  #[test]
+  fn test_01_02_fixed_xor() {
+    let binary = read_hex("1c0111001f010100061a024b53535009181c");
+    let xor_value = read_hex("686974207468652062756c6c277320657965");
+
+    assert_eq!(read_hex("746865206b696420646f6e277420706c6179"), xor(binary, xor_value));
+  }
+
 }
