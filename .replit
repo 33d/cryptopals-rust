@@ -1,0 +1,3 @@
+language = "rust"
+run = "cargo test -- --nocapture"
+
